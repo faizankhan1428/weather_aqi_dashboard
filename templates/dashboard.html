@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather & Air Quality Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <h1>Weather & Air Quality Dashboard</h1>
+    </header>
+
+    <main class="container">
+        <form id="city-form" class="form">
+            <input type="text" id="city-input" placeholder="Enter city (e.g., Karachi)" />
+            <button type="submit">
+                <span class="btn-text">Load</span>
+                <i class="fas fa-spinner fa-spin loader-icon" style="display: none;"></i>
+            </button>
+            <button type="button" id="add-favorite-btn">Add to Favorites</button>
+        </form>
+        
+        <form id="compare-form" class="form">
+            <input type="text" id="city1-input" placeholder="City 1 (e.g., Karachi)" />
+            <input type="text" id="city2-input" placeholder="City 2 (e.g., Lahore)" />
+            <button type="submit">
+                <span class="btn-text">Compare</span>
+                <i class="fas fa-spinner fa-spin loader-icon" style="display: none;"></i>
+            </button>
+        </form>
+
+        <section class="favorites-section">
+            <h3>My Favorite Cities</h3>
+            <div id="favorites-container" class="favorites-list">
+            </div>
+        </section>
+
+        <button type="button" id="reset-btn" style="display: none;">Reset</button>
+
+        <section class="cards">
+            <div class="card">
+                <h3>Location</h3>
+                <p id="city-name">—</p>
+                <small id="coords">—</small>
+            </div>
+            <div class="card">
+                <h3>Weather Now</h3>
+                <p>Temp: <span id="temp">—</span> °C</p>
+                <p>Humidity: <span id="humidity">—</span> %</p>
+                <p>Wind: <span id="wind">—</span> km/h</p>
+            </div>
+            <div class="card">
+                <h3>Air Quality Now</h3>
+                <p>PM2.5: <span id="pm25">—</span> μg/m³</p>
+                <p>PM10: <span id="pm10">—</span> μg/m³</p>
+                <p>CO: <span id="co">—</span> μg/m³</p>
+                <p>O₃: <span id="o3">—</span> μg/m³</p>
+                <p>NO₂: <span id="no2">—</span> μg/m³</p>
+                <p>SO₂: <span id="so2">—</span> μg/m³</p>
+            </div>
+        </section>
+        
+        <section class="map-container">
+            <h3>Location Map</h3>
+            <div id="map" style="height: 500px;"></div>
+        </section>
+
+        <section class="charts">
+            <div class="chart-block">
+                <h3>Temperature (last 7 days, hourly)</h3>
+                <canvas id="tempChart"></canvas>
+            </div>
+            <div class="chart-block">
+                <h3>PM2.5 & PM10 (last 7 days, hourly)</h3>
+                <canvas id="pmChart"></canvas>
+            </div>
+        </section>
+        
+        <section id="compare-section" class="charts" style="display:none;">
+            <div class="chart-block">
+                <h3>Temperature Comparison</h3>
+                <canvas id="compareTempChart"></canvas>
+            </div>
+            <div class="chart-block">
+                <h3>PM2.5 Comparison</h3>
+                <canvas id="comparePMChart"></canvas>
+            </div>
+        </section>
+    </main>
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
